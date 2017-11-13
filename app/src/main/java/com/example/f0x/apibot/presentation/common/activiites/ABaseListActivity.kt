@@ -1,4 +1,4 @@
-package com.example.f0x.apibot.presentation.common
+package com.example.f0x.apibot.presentation.common.activiites
 
 import android.os.Bundle
 import android.support.annotation.CallSuper
@@ -9,16 +9,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.f0x.apibot.R
-
+import com.example.f0x.apibot.presentation.common.AListAdapter
+import com.example.f0x.apibot.presentation.common.EmptyRecyclerView
+import com.example.f0x.apibot.presentation.common.IEmptyView
+import com.example.f0x.apibot.presentation.common.IListView
 
 /**
- * Created by f0x on 13.07.17.
+ * Created by f0x on 13.11.17.
  */
-
-abstract class ABaseListFragmentMvp<D, VH : RecyclerView.ViewHolder> : AbasePullRefreshFragmentMvp(), IListView<D> {
-
+abstract class ABaseListActivity<D, VH : RecyclerView.ViewHolder> : ABaseSwipeActivity(), IListView<D> {
     lateinit var recyclerView: EmptyRecyclerView
-    var emptyView: IEmptyView? = null
+    protected var emptyView: IEmptyView? = null
     protected lateinit var adapter: AListAdapter<D, VH>
     protected lateinit var layoutManager: RecyclerView.LayoutManager
     protected var isDoScrollDown = true
@@ -27,15 +28,15 @@ abstract class ABaseListFragmentMvp<D, VH : RecyclerView.ViewHolder> : AbasePull
         get() = true
 
     val dividerDecoration: RecyclerView.ItemDecoration
-        get() = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+        get() = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
 
     @get:StringRes
     protected abstract val emptyViewText: Int
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        recyclerView = view!!.findViewById(R.id.rvList)
-        emptyView = view.findViewById<View>(R.id.emptyView) as IEmptyView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        recyclerView = findViewById(R.id.rvList)
+        emptyView = findViewById<View>(R.id.emptyView) as IEmptyView
 
         recyclerView.setEmptyView(emptyView, emptyViewText)
         recyclerView.setHasFixedSize(true)
@@ -46,10 +47,11 @@ abstract class ABaseListFragmentMvp<D, VH : RecyclerView.ViewHolder> : AbasePull
         recyclerView.layoutManager = layoutManager
         adapter = initAdapter()
         recyclerView.setAdapter(adapter)
-        initListeners()
+        initListListener()
     }
 
-    protected fun initListeners() {
+    private fun initListListener() {
+        super.initListeners()
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -96,8 +98,11 @@ abstract class ABaseListFragmentMvp<D, VH : RecyclerView.ViewHolder> : AbasePull
 
     }
 
+    override fun stopRefreshing() {
+        swipeToRefreshLayout.isRefreshing = false
+    }
+
     protected abstract fun initAdapter(): AListAdapter<D, VH>
 
     protected abstract fun initLayoutManager(): RecyclerView.LayoutManager
-
 }

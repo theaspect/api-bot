@@ -8,19 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.ofertadaboa.app.presentation.common.lists.EmptyRecyclerView
+        <com.example.f0x.apibot.presentation.common.EmptyRecyclerView
             android:id="@+id/rvList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-        </com.ofertadaboa.app.presentation.common.lists.EmptyRecyclerView>
 
-        <com.ofertadaboa.app.presentation.common.lists.SimpleEmptyView
+        <com.example.f0x.apibot.presentation.common.SimpleEmptyView
             android:id="@+id/emptyView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
 
-        </com.ofertadaboa.app.presentation.common.lists.SimpleEmptyView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

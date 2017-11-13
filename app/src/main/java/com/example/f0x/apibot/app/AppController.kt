@@ -1,6 +1,7 @@
 package com.example.f0x.apibot.app
 
 import android.app.Application
+import com.example.f0x.apibot.presentation.main.MainActivity
 import io.realm.Realm
 
 /**
@@ -8,9 +9,18 @@ import io.realm.Realm
  */
 class AppController : Application() {
 
+    companion object {
+        private lateinit var componentProvider: ComponentProvider
+        fun injectInMain(mainActivity: MainActivity) {
+            componentProvider.injectInMainActivity(mainActivity)
+        }
+    }
+
+
     override fun onCreate() {
         super.onCreate()
         initRealm()
+        componentProvider = ComponentProvider(this)
 
     }
 

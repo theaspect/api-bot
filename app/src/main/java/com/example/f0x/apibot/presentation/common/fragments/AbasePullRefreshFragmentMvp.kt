@@ -1,4 +1,4 @@
-package com.example.f0x.apibot.presentation.common
+package com.example.f0x.apibot.presentation.common.fragments
 
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout

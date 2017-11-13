@@ -1,4 +1,4 @@
-package com.example.f0x.apibot.presentation.common
+package com.example.f0x.apibot.presentation.common.presenters
 
 import android.content.Context
 import com.arellomobile.mvp.MvpPresenter

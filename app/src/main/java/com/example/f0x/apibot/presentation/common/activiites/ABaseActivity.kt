@@ -1,9 +1,10 @@
-package com.example.f0x.apibot.presentation.common
+package com.example.f0x.apibot.presentation.common.activiites
 
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
+import com.example.f0x.apibot.presentation.common.Layout
 
 /**
  * Created by f0x on 26.10.17.

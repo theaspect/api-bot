@@ -1,4 +1,4 @@
-package com.example.f0x.apibot.presentation.common
+package com.example.f0x.apibot.presentation.common.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
+import com.example.f0x.apibot.presentation.common.Layout
 
 /**
  * Created by f0x on 06.07.17.
