@@ -3,4 +3,5 @@
     <string name="no_data_found">No data found</string>
     <string name="question">Question</string>
     <string name="query">Query</string>
+    <!--<string naapiiKey">Api key</string>-->
 </resources>

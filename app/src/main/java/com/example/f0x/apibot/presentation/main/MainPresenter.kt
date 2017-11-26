@@ -3,7 +3,9 @@ package com.example.f0x.apibot.presentation.main
 import ai.api.AIListener
 import ai.api.android.AIService
 import ai.api.model.AIError
+import ai.api.model.AIRequest
 import ai.api.model.AIResponse
+import android.os.Build
 import com.arellomobile.mvp.InjectViewState
 import com.example.f0x.apibot.presentation.common.presenters.ABasePermissionPresenter
 import javax.inject.Inject
@@ -15,62 +17,100 @@ import javax.inject.Singleton
 
 @InjectViewState
 @Singleton
-class MainPresenter @Inject constructor(val aiService: AIService) : ABasePermissionPresenter<IMainView>(), AIListener {
+class MainPresenter @Inject constructor(val service: AIService) : ABasePermissionPresenter<IMainView>(), AIListener {
+    var isListening = false
+    var isPaused = false
+    var isAudioAccepted = false
 
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        isAudioAccepted = checkRecordAudioPermission()
+        if (!isAudioAccepted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            requestRecordAudioPermission()
+    }
+
+    init {
+        service.setListener(this)
+    }
 
     override fun onResult(result: AIResponse?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("$tag onResult: " + result?.result?.resolvedQuery)
     }
 
     override fun onListeningStarted() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("$tag onListeningStarted()")
+
     }
 
     override fun onAudioLevel(level: Float) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onError(error: AIError?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewState.showToast(error?.message)
+        println("$tag onError: " + error?.message)
     }
 
     override fun onListeningCanceled() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("$tag onListeningCanceled()")
     }
 
     override fun onListeningFinished() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("$tag onListeningFinished()")
     }
 
+    override fun attachView(view: IMainView?) {
+        if (isListening && isPaused) {
+            service.resume()
+            isPaused = false
+        }
+        super.attachView(view)
+    }
 
     override fun onDestroy() {
-        aiService.cancel()
+        service.cancel()
         super.onDestroy()
     }
 
-
-    override fun attachView(view: IMainView?) {
-        super.attachView(view)
-        aiService.startListening()
-    }
-
     override fun detachView(view: IMainView) {
-        aiService.pause()
+        if (isListening) {
+            service.pause()
+            isPaused = true
+        }
         super.detachView(view)
 
     }
 
     fun micOn() {
-
+        if (!isAudioAccepted) {
+            viewState.showToast("Need mic permission!")
+            viewState.disableMic()
+            return
+        }
+        if (!isListening) {
+            service.startListening()
+            isListening = true
+        }
 
     }
 
     fun micOff() {
-
+        if (isListening) {
+            service.stopListening()
+            isListening = false
+        }
 
     }
 
-    fun onSendClik(toString: String) {
+    fun onSendClick(query: String) {
+        val request = AIRequest()
+        request.setQuery(query)
+        Thread(Runnable {
+            val result = service.textRequest(request)
+            println("$tag text result $result")
+
+        }).start()
 
 
     }

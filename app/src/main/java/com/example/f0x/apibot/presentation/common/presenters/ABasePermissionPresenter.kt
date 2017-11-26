@@ -21,15 +21,19 @@ abstract class ABasePermissionPresenter<View : MvpView> : ABasePresenter<View>()
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
+    protected fun checkRecordAudioPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) true else ContextCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected fun requestRecordAudioPermission() {
-        (context as Activity).requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+        (context as Activity).requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),
                 Const.REQUEST_RECORD_AUDIO_PERMISSION)
     }
 
-    open fun setRecordAudioResult(isGranted: Boolean) {
-
-    }
 
 
 }
