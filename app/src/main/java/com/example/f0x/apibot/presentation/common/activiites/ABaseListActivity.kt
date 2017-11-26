@@ -17,7 +17,7 @@ import com.example.f0x.apibot.presentation.common.IListView
 /**
  * Created by f0x on 13.11.17.
  */
-abstract class ABaseListActivity<D, VH : RecyclerView.ViewHolder> : ABaseSwipeActivity(), IListView<D> {
+abstract class ABaseListActivity<D, VH : RecyclerView.ViewHolder> : ABaseActivity(), IListView<D> {
     lateinit var recyclerView: EmptyRecyclerView
     protected var emptyView: IEmptyView? = null
     protected lateinit var adapter: AListAdapter<D, VH>
@@ -98,9 +98,6 @@ abstract class ABaseListActivity<D, VH : RecyclerView.ViewHolder> : ABaseSwipeAc
 
     }
 
-    override fun stopRefreshing() {
-        swipeToRefreshLayout.isRefreshing = false
-    }
 
     protected abstract fun initAdapter(): AListAdapter<D, VH>
 

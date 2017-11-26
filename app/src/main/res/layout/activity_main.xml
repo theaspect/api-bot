@@ -4,42 +4,76 @@
     android:layout_height="match_parent"
     android:padding="5dp">
 
-    <include
-        android:id="@+id/list"
-        layout="@layout/stub_list" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/llButtons">
+
+        <com.example.f0x.apibot.presentation.common.EmptyRecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+
+        <com.example.f0x.apibot.presentation.common.SimpleEmptyView
+            android:id="@+id/emptyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+    </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="10"
+        >
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
+            android:id="@+id/tiLayout"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-
+            android:layout_weight="8"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/etQuery"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:hint="@string/query"
-                android:maxLines="2"
-
-                />
+                android:layout_marginEnd="10dp"
+                android:hint="Query"
+                 />
 
         </android.support.design.widget.TextInputLayout>
 
         <ImageButton
-            android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btnSend"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="null"
-            android:src="@drawable/ic_send_black_24dp" />
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:src="@drawable/ic_send_black_24dp"
+            android:visibility="visible" />
 
+
+        <ToggleButton
+            android:layout_weight="1"
+            android:id="@+id/btnMic"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/mic"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+             />
     </LinearLayout>
 
 

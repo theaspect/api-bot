@@ -16,8 +16,6 @@ interface IListView<D> : IView {
     fun clearData()
 
 
-    fun stopRefreshing()
-
     fun updateItemView(item: D)
 
 }

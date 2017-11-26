@@ -8,7 +8,7 @@ import android.view.View
  * on 29.03.17.
  */
 
-abstract class AListAdapter<D, VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
+abstract class AListAdapter<D , VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
     private var tag: String
     internal var onDataClickListener: ((item: D) -> Unit)? = null
 

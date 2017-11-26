@@ -59,4 +59,19 @@ class MainPresenter @Inject constructor(val aiService: AIService) : ABasePermiss
         super.detachView(view)
 
     }
+
+    fun micOn() {
+
+
+    }
+
+    fun micOff() {
+
+
+    }
+
+    fun onSendClik(toString: String) {
+
+
+    }
 }

@@ -23,12 +23,10 @@ class AIView @JvmOverloads constructor(
         if (item.error != null) {
             tvTextResponse.text = item.error.message
             tvTextResponse.setTextColor(Color.RED)
-            playStopButton.setOnClickListener(null)
             return
         }
         tvTextResponse.setTextColor(Color.DKGRAY)
         tvTextResponse.text = item.response?.result?.resolvedQuery
-        playStopButton.setOnClickListener(onClickListener)
     }
 
 }

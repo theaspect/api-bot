@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start"
+    android:gravity="end"
     android:orientation="vertical"
     android:layout_margin="10dp"
     >
@@ -13,10 +13,10 @@
         android:id="@+id/tvTextResponse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
+        android:gravity="end"
         android:minLines="3"
-        android:textColor="@android:color/black"
-        tools:text="bot response" />
+        android:textColor="@android:color/holo_red_light"
+        tools:text="user question" />
 
 
 </LinearLayout>
