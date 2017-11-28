@@ -3,7 +3,6 @@ package com.example.f0x.apibot.presentation.main
 import android.content.Context
 import android.util.AttributeSet
 import com.example.f0x.apibot.R
-import com.example.f0x.apibot.domain.models.ai.UserModel
 import com.example.f0x.apibot.presentation.common.ABaseView
 import com.example.f0x.apibot.presentation.common.IListItemView
 import com.example.f0x.apibot.presentation.common.Layout
