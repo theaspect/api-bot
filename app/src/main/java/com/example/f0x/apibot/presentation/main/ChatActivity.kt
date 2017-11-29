@@ -18,7 +18,6 @@ import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.presentation.common.AListAdapter
 import com.example.f0x.apibot.presentation.common.Layout
 import com.example.f0x.apibot.presentation.common.activiites.ABaseListActivity
-import com.example.f0x.apibot.presentation.common.activiites.ChatAdapter
 import kotlinx.android.synthetic.main.activity_chat.*
 import javax.inject.Inject
 
@@ -112,10 +111,6 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
         if (requestCode == Const.REQUEST_RECORD_AUDIO_PERMISSION) {
             presenter.isAudioAccepted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
         }
-    }
-
-    override fun disableMic() {
-        btnMic.isEnabled = false
     }
 
     override fun addMessage(chatMessage: ChatMessage) {

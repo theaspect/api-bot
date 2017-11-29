@@ -29,30 +29,14 @@ abstract class AListAdapter<D , VH : RecyclerView.ViewHolder>() : RecyclerView.A
 
     }
 
-    override fun getItemCount(): Int {
-        return dataSet.size
-    }
+    override fun getItemCount(): Int = dataSet.size
 
-    fun add2DataSet(dataSet: MutableList<D>) {
-        var needInvalidateList = false
-        for (d in dataSet) {
-            if (!this.dataSet.contains(d)) {
-                this.dataSet.add(d)
-                needInvalidateList = true
-            }
-        }
-        if (needInvalidateList)
-            notifyDataSetChanged()
-    }
-
-    @Synchronized
     fun clearData() {
         dataSet = ArrayList()
         isNeedShowEmptyView = true
         notifyDataSetChanged()
     }
 
-    @Synchronized
     fun remove(data: D) {
         if (!dataSet.isEmpty()) {
             var index = -1
@@ -68,9 +52,7 @@ abstract class AListAdapter<D , VH : RecyclerView.ViewHolder>() : RecyclerView.A
         }
     }
 
-    fun updateItemView(item: D) {
-        notifyItemChanged(getItemPosition(item))
-    }
+    fun updateItemView(item: D) = notifyItemChanged(getItemPosition(item))
 
     fun addItem(item: D) {
         if (!dataSet.contains(item)) {
@@ -79,17 +61,14 @@ abstract class AListAdapter<D , VH : RecyclerView.ViewHolder>() : RecyclerView.A
         }
     }
 
-    protected fun getItemPosition(item: D): Int {
-        var position = -1
-        for (i in dataSet.indices)
-            if (item == dataSet[i])
-                position = i
+    private fun getItemPosition(item: D): Int {
+        val position = dataSet.indices.lastOrNull { item == dataSet[it] }
+                ?: -1
         return position
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        bindDefaultViewHolder(holder as DefaultViewHolder<D>, position)
-    }
+    override fun onBindViewHolder(holder: VH, position: Int) =
+            bindDefaultViewHolder(holder as DefaultViewHolder<D>, position)
 
 
     private fun bindDefaultViewHolder(holder: DefaultViewHolder<D>, position: Int) {

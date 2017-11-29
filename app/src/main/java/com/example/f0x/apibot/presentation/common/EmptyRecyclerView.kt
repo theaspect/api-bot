@@ -11,7 +11,9 @@ import android.view.View
  * on 28.03.17.
  */
 
-open class EmptyRecyclerView : RecyclerView {
+open class EmptyRecyclerView @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : RecyclerView(context, attrs, defStyleAttr) {
 
     private var emptyView: IEmptyView? = null
 
@@ -28,13 +30,6 @@ open class EmptyRecyclerView : RecyclerView {
             checkIfEmpty()
         }
     }
-
-    constructor(context: Context) : super(context) {}
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {}
-
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {}
-
     override fun setAdapter(adapter: RecyclerView.Adapter<*>?) {
         val oldAdapter = getAdapter()
         oldAdapter?.unregisterAdapterDataObserver(observer)
@@ -59,16 +54,13 @@ open class EmptyRecyclerView : RecyclerView {
             if (emptyViewVisible) {
                 emptyViewVisible = (adapter as AListAdapter<*, *>).isNeedShowEmptyView
             }
-
-
         }
-        if (emptyViewVisible) {
+        visibility = if (emptyViewVisible) {
             emptyView?.setVisibility(View.VISIBLE)
-            visibility = View.GONE
+            View.GONE
         } else {
             emptyView?.setVisibility(View.GONE)
-            visibility = View.VISIBLE
-
+            View.VISIBLE
         }
     }
 

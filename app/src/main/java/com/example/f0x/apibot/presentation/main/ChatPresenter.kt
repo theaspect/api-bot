@@ -121,14 +121,12 @@ class ChatPresenter @Inject constructor(val service: AIService,
 
         if (!isAudioAccepted) {
             viewState.showToast("Need mic permission!")
-            viewState.disableMic()
             return
         }
         if (!isListening) {
             service.startListening()
             isListening = true
         }
-
     }
 
     fun micOff() {
@@ -136,7 +134,6 @@ class ChatPresenter @Inject constructor(val service: AIService,
             service.stopListening()
             isListening = false
         }
-
     }
 
     fun onSendClick(query: String) {

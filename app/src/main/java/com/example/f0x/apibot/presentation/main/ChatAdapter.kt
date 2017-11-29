@@ -1,12 +1,10 @@
-package com.example.f0x.apibot.presentation.common.activiites
+package com.example.f0x.apibot.presentation.main
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.presentation.common.ABaseView
 import com.example.f0x.apibot.presentation.common.AListAdapter
-import com.example.f0x.apibot.presentation.main.ChatMessageLeftView
-import com.example.f0x.apibot.presentation.main.ChatMessageRightView
 
 /**
  * Created by f0x on 26.11.17.
