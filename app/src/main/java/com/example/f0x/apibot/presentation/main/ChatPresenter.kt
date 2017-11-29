@@ -10,6 +10,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.example.f0x.apibot.domain.IPlayer
 import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.domain.repository.chat.IChatRepository
+import com.example.f0x.apibot.domain.repository.settings.ISettingsLocalStorage
+import com.example.f0x.apibot.domain.repository.settings.local.Settings
 import com.example.f0x.apibot.presentation.common.presenters.ABasePermissionPresenter
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,15 +30,17 @@ import javax.inject.Singleton
 class ChatPresenter @Inject constructor(val service: AIService,
                                         val repository: IChatRepository,
                                         val subject: ReplaySubject<ChatMessage>,
-                                        val player: IPlayer
+                                        val player: IPlayer,
+                                        val settingsLocalStorage: ISettingsLocalStorage
 ) : ABasePermissionPresenter<IChatView>(), AIListener {
     var isListening = false
     var isPaused = false
     var isAudioAccepted = false
-
+    val settings: Settings = settingsLocalStorage.settings()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        invalidateMenu()
         repository.allMessages()
         isAudioAccepted = checkRecordAudioPermission()
         if (!isAudioAccepted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -52,7 +56,8 @@ class ChatPresenter @Inject constructor(val service: AIService,
         val speech = result?.result?.fulfillment?.speech
         if (speech != null) {
             repository.saveMessage(result.result.fulfillment.speech, ChatMessage.TYPE_BOT)
-            player.play(speech)
+            if (settings.isSoundEnabled)
+                player.play(speech)
 
         }
     }
@@ -147,10 +152,36 @@ class ChatPresenter @Inject constructor(val service: AIService,
                 .subscribeOn(Schedulers.io())
                 .subscribe(Consumer {
                     repository.saveMessage(it, ChatMessage.TYPE_BOT)
-                    if (it != null) {
+                    if (it != null && settings.isSoundEnabled) {
                         player.play(it)
                     }
                 })
+
+    }
+
+    fun onMuteClick() {
+        invalidateMenu()
+        if (settings.isSoundEnabled) {
+            player.stop()
+        }
+
+        settings.isSoundEnabled = !settings.isSoundEnabled
+        settingsLocalStorage.saveSettings(settings)
+
+    }
+
+    private fun invalidateMenu() {
+        if (settings.isSoundEnabled)
+            viewState.muteMenuItem()
+        else
+            viewState.unMuteMenuItem()
+    }
+
+    fun clearChat() {
+        if (player.isPlaying())
+            player.stop()
+        repository.clearChatMessages()
+        viewState.clearChat()
 
     }
 }

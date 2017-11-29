@@ -6,6 +6,8 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -20,13 +22,14 @@ import com.example.f0x.apibot.presentation.common.activiites.ChatAdapter
 import kotlinx.android.synthetic.main.activity_chat.*
 import javax.inject.Inject
 
+
 @Layout(id = R.layout.activity_chat)
 class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>>(), IChatView {
-
 
     @Inject
     @InjectPresenter
     lateinit var presenter: ChatPresenter
+    var menu: Menu? = null
 
     override val emptyViewText: Int
         get() = R.string.no_data_found
@@ -38,6 +41,25 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
 
     @ProvidePresenter
     fun providePresenter() = presenter
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.chat_menu, menu)
+        this.menu = menu
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.clear_messages) {
+            presenter.clearChat()
+            return true
+        }
+        if (item.itemId == R.id.mute) {
+            presenter.onMuteClick()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
 
     override fun initAdapter(): AListAdapter<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>> {
@@ -84,7 +106,6 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
     override fun inject() {
         AppController.injectInMain(this)
         presenter.context = this
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -95,7 +116,6 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
 
     override fun disableMic() {
         btnMic.isEnabled = false
-
     }
 
     override fun addMessage(chatMessage: ChatMessage) {
@@ -103,5 +123,17 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
         recyclerView.scrollToPosition(adapter.itemCount - 1)
     }
 
+    override fun unMuteMenuItem() {
+        menu?.findItem(R.id.mute)?.setTitle(R.string.sound_enabled)
+
+    }
+
+    override fun muteMenuItem() {
+        menu?.findItem(R.id.mute)?.setTitle(R.string.sound_disabled)
+    }
+
+    override fun clearChat() {
+        adapter.clearData()
+    }
 
 }

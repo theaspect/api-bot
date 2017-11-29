@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">Rublishteyna24</string>
-    <string name="no_data_found">No data found</string>
+    <string name="no_data_found">No messages</string>
     <string name="question">Question</string>
     <string name="query">Query</string>
     <string name="bot_name">Bot: </string>
     <string name="your_name">You:</string>
     <string name="query_hint">Query</string>
+    <string name="mute_speech">Mute</string>
+    <string name="clear_chat">Clear</string>
+    <string name="sound_disabled">Sound on</string>
+    <string name="sound_enabled">Sound off</string>
+
     <!--<string naapiiKey">Api key</string>-->
 </resources>

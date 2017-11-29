@@ -9,4 +9,7 @@ import com.example.f0x.apibot.presentation.common.IView
 interface IChatView : IView {
     fun disableMic()
     fun addMessage(chatMessage: ChatMessage)
+    fun unMuteMenuItem()
+    fun muteMenuItem()
+    fun clearChat()
 }

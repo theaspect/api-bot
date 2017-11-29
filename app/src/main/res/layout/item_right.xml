@@ -47,6 +47,8 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
             android:textColor="@android:color/white"
             tools:text="12.12.2017 23:59:59" />
 
