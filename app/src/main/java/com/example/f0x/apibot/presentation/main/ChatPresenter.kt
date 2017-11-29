@@ -7,6 +7,7 @@ import ai.api.model.AIRequest
 import ai.api.model.AIResponse
 import android.os.Build
 import com.arellomobile.mvp.InjectViewState
+import com.example.f0x.apibot.domain.IPlayer
 import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.domain.repository.chat.IChatRepository
 import com.example.f0x.apibot.presentation.common.presenters.ABasePermissionPresenter
@@ -24,7 +25,11 @@ import javax.inject.Singleton
 
 @InjectViewState
 @Singleton
-class ChatPresenter @Inject constructor(val service: AIService, val repository: IChatRepository, val subject: ReplaySubject<ChatMessage>) : ABasePermissionPresenter<IChatView>(), AIListener {
+class ChatPresenter @Inject constructor(val service: AIService,
+                                        val repository: IChatRepository,
+                                        val subject: ReplaySubject<ChatMessage>,
+                                        val player: IPlayer
+) : ABasePermissionPresenter<IChatView>(), AIListener {
     var isListening = false
     var isPaused = false
     var isAudioAccepted = false
@@ -43,10 +48,13 @@ class ChatPresenter @Inject constructor(val service: AIService, val repository: 
     }
 
     override fun onResult(result: AIResponse?) {
-        println("$tag onResult: " + result?.result?.resolvedQuery)
         repository.saveMessage(result?.result?.resolvedQuery, ChatMessage.TYPE_USER)
-        repository.saveMessage(result?.result?.fulfillment?.speech, ChatMessage.TYPE_BOT)
+        val speech = result?.result?.fulfillment?.speech
+        if (speech != null) {
+            repository.saveMessage(result.result.fulfillment.speech, ChatMessage.TYPE_BOT)
+            player.play(speech)
 
+        }
     }
 
     override fun onListeningStarted() {
@@ -87,6 +95,10 @@ class ChatPresenter @Inject constructor(val service: AIService, val repository: 
             service.pause()
             isPaused = true
         }
+
+        if (player.isPlaying())
+            player.stop()
+
         super.detachView(view)
     }
 
@@ -98,6 +110,10 @@ class ChatPresenter @Inject constructor(val service: AIService, val repository: 
 
 
     fun micOn() {
+
+        if (player.isPlaying())
+            player.stop()
+
         if (!isAudioAccepted) {
             viewState.showToast("Need mic permission!")
             viewState.disableMic()
@@ -129,15 +145,12 @@ class ChatPresenter @Inject constructor(val service: AIService, val repository: 
 
         }.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(Consumer { repository.saveMessage(it, ChatMessage.TYPE_BOT) })
-
-//
-//        Thread(Runnable {
-//            val result = service.textRequest(request)
-//            println("$tag text result $result")
-//
-//        }).start()
-//
+                .subscribe(Consumer {
+                    repository.saveMessage(it, ChatMessage.TYPE_BOT)
+                    if (it != null) {
+                        player.play(it)
+                    }
+                })
 
     }
 }

@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp">
+    android:padding="5dp"
+
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/llButtons">
+        android:layout_above="@+id/llButtons"
+        android:paddingBottom="7dp">
 
         <com.example.f0x.apibot.presentation.common.EmptyRecyclerView
             android:id="@+id/rvList"
@@ -29,8 +32,9 @@
     <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_bar"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:weightSum="10">
@@ -46,8 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
-                android:hint="Query"
-                android:text="Who are my top clients" />
+                android:hint="@string/query_hint" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -62,17 +65,25 @@
             android:visibility="visible" />
 
 
-        <ToggleButton
+        <Button
             android:id="@+id/btnMic"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/mic"
-            android:checked="false"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
+            android:padding="3dp" />
+        <!--<ToggleButton-->
+        <!--android:id="@+id/btnMic"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/mic"-->
+        <!--android:checked="false"-->
+        <!--android:text=""-->
+        <!--android:textOff=""-->
+        <!--android:textOn="" />-->
     </LinearLayout>
 
 

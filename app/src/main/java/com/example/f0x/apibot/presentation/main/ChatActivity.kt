@@ -5,6 +5,8 @@ import android.graphics.Canvas
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
+import android.view.MotionEvent
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.example.f0x.apibot.R
@@ -20,7 +22,6 @@ import javax.inject.Inject
 
 @Layout(id = R.layout.activity_chat)
 class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>>(), IChatView {
-
 
 
     @Inject
@@ -49,22 +50,40 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
 
 
     override fun initListeners() {
-        btnMic.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
+
+        btnMic.setOnTouchListener { v, event ->
+            if (v.id != R.id.btnMic)
+                return@setOnTouchListener false
+
+            if (!btnMic.isEnabled)
+                return@setOnTouchListener false
+
+            if (event.action == MotionEvent.ACTION_DOWN) {
                 presenter.micOn()
-            else
+                return@setOnTouchListener true
+            }
+
+            if (event.action == MotionEvent.ACTION_UP) {
                 presenter.micOff()
+                return@setOnTouchListener true
+            }
+            return@setOnTouchListener false
         }
+
         btnSend.setOnClickListener {
             val query = etQuery.text.toString()
-//            etQuery.setText("")
+
+            if (TextUtils.isEmpty(query))
+                return@setOnClickListener
+
+            etQuery.setText("")
             presenter.onSendClick(query)
         }
     }
 
     override fun inject() {
         AppController.injectInMain(this)
-        presenter.context =this
+        presenter.context = this
 
     }
 
@@ -75,7 +94,7 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
     }
 
     override fun disableMic() {
-        btnMic.isChecked = false
+        btnMic.isEnabled = false
 
     }
 
