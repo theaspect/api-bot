@@ -1,6 +1,6 @@
 package com.example.f0x.apibot.app.injections.global
 
-import com.example.f0x.apibot.presentation.main.MainActivity
+import com.example.f0x.apibot.presentation.main.ChatActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,10 +10,11 @@ import javax.inject.Singleton
 
 @Component(modules = arrayOf(
         AppModule::class,
-        AIModule::class)
-)
-@Singleton
+        AIModule::class,
+        RepoModule::class,
+        LocalStorageModule::class))
 
+@Singleton
 interface AppComponent {
-    fun inject(mainActivity: MainActivity)
+    fun inject(chatActivity: ChatActivity)
 }

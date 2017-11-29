@@ -7,7 +7,10 @@ import ai.api.model.AIRequest
 import ai.api.model.AIResponse
 import android.os.Build
 import com.arellomobile.mvp.InjectViewState
+import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
+import com.example.f0x.apibot.domain.repository.chat.IChatRepository
 import com.example.f0x.apibot.presentation.common.presenters.ABasePermissionPresenter
+import io.reactivex.subjects.ReplaySubject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +20,7 @@ import javax.inject.Singleton
 
 @InjectViewState
 @Singleton
-class MainPresenter @Inject constructor(val service: AIService) : ABasePermissionPresenter<IMainView>(), AIListener {
+class ChatPresenter @Inject constructor(val service: AIService, val repository: IChatRepository, val subject: ReplaySubject<ChatMessage>) : ABasePermissionPresenter<IChatView>(), AIListener {
     var isListening = false
     var isPaused = false
     var isAudioAccepted = false
@@ -25,6 +28,7 @@ class MainPresenter @Inject constructor(val service: AIService) : ABasePermissio
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        repository.allMessages()
         isAudioAccepted = checkRecordAudioPermission()
         if (!isAudioAccepted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             requestRecordAudioPermission()
@@ -36,6 +40,9 @@ class MainPresenter @Inject constructor(val service: AIService) : ABasePermissio
 
     override fun onResult(result: AIResponse?) {
         println("$tag onResult: " + result?.result?.resolvedQuery)
+        repository.saveMessage(result?.result?.resolvedQuery, ChatMessage.TYPE_USER)
+        repository.saveMessage(result?.result?.fulfillment?.speech, ChatMessage.TYPE_BOT)
+
     }
 
     override fun onListeningStarted() {
@@ -60,27 +67,31 @@ class MainPresenter @Inject constructor(val service: AIService) : ABasePermissio
         println("$tag onListeningFinished()")
     }
 
-    override fun attachView(view: IMainView?) {
+    override fun attachView(view: IChatView?) {
         if (isListening && isPaused) {
             service.resume()
             isPaused = false
         }
+        addDisposable(subject.subscribe {
+            viewState.addMessage(it)
+        })
         super.attachView(view)
     }
+
+    override fun detachView(view: IChatView) {
+        if (isListening) {
+            service.pause()
+            isPaused = true
+        }
+        super.detachView(view)
+    }
+
 
     override fun onDestroy() {
         service.cancel()
         super.onDestroy()
     }
 
-    override fun detachView(view: IMainView) {
-        if (isListening) {
-            service.pause()
-            isPaused = true
-        }
-        super.detachView(view)
-
-    }
 
     fun micOn() {
         if (!isAudioAccepted) {

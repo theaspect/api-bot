@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.f0x.apibot.app.injections.global.AppComponent
 import com.example.f0x.apibot.app.injections.global.AppModule
 import com.example.f0x.apibot.app.injections.global.DaggerAppComponent
-import com.example.f0x.apibot.presentation.main.MainActivity
+import com.example.f0x.apibot.presentation.main.ChatActivity
 
 /**
  * Created by f0x on 14.11.17.
@@ -17,8 +17,8 @@ class ComponentProvider(context: Context) {
 
                     .build()
 
-    fun injectInMainActivity(mainActivity: MainActivity) {
-        appComponent.inject(mainActivity)
+    fun injectInMainActivity(chatActivity: ChatActivity) {
+        appComponent.inject(chatActivity)
     }
 
 }

@@ -3,11 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start"
-    android:orientation="vertical"
     android:layout_margin="10dp"
-    >
-
+    android:gravity="start"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvTextResponse"
@@ -18,5 +16,10 @@
         android:textColor="@android:color/black"
         tools:text="bot response" />
 
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="12.12.2017 23:59:59" />
 
 </LinearLayout>

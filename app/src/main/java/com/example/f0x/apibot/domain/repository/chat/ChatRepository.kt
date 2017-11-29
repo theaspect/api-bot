@@ -1,19 +1,24 @@
 package com.example.f0x.apibot.domain.repository.chat
 
-import com.example.f0x.apibot.domain.models.ai.chat.ChatMessageRealm
+import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.domain.repository.BaseRepository
-import io.reactivex.Single
+import com.example.f0x.apibot.domain.repository.chat.local.IChatLocalStorage
+import io.reactivex.subjects.ReplaySubject
 
-class ChatRepository() : BaseRepository(), IChatRepository {
-    override fun allMessages(): Single<List<ChatMessageRealm>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class ChatRepository(val localStorage: IChatLocalStorage, val chatSubject: ReplaySubject<ChatMessage>) : BaseRepository(), IChatRepository {
+    override fun saveMessage(message: String?, type: Int) {
+        val chatMessage = ChatMessage(System.currentTimeMillis(), message, type)
+        localStorage.saveMessage(chatMessage)
+        chatSubject.onNext(chatMessage)
     }
 
-    override fun saveMessage(chatMessageRealm: ChatMessageRealm) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override fun allMessages() {
+        localStorage.allMessages().forEach { chatSubject.onNext(it) }
     }
+
 
     override fun clearChatMessages() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        localStorage.clearChatMessages()
     }
 }

@@ -8,20 +8,22 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.example.f0x.apibot.R
 import com.example.f0x.apibot.app.AppController
 import com.example.f0x.apibot.app.Const
-import com.example.f0x.apibot.domain.models.ai.AIModel
+import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.presentation.common.AListAdapter
 import com.example.f0x.apibot.presentation.common.Layout
 import com.example.f0x.apibot.presentation.common.activiites.ABaseListActivity
 import com.example.f0x.apibot.presentation.common.activiites.ChatAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_chat.*
 import javax.inject.Inject
 
-@Layout(id = R.layout.activity_main)
-class MainActivity : ABaseListActivity<AIModel, AListAdapter.DefaultViewHolder<AIModel>>(), IMainView {
+@Layout(id = R.layout.activity_chat)
+class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>>(), IChatView {
+
+
 
     @Inject
     @InjectPresenter
-    lateinit var presenter: MainPresenter
+    lateinit var presenter: ChatPresenter
 
     override val emptyViewText: Int
         get() = R.string.no_data_found
@@ -30,7 +32,7 @@ class MainActivity : ABaseListActivity<AIModel, AListAdapter.DefaultViewHolder<A
     fun providePresenter() = presenter
 
 
-    override fun initAdapter(): AListAdapter<AIModel, AListAdapter.DefaultViewHolder<AIModel>> {
+    override fun initAdapter(): AListAdapter<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>> {
         return ChatAdapter()
     }
 
@@ -48,7 +50,7 @@ class MainActivity : ABaseListActivity<AIModel, AListAdapter.DefaultViewHolder<A
         }
         btnSend.setOnClickListener {
             val query = etQuery.text.toString()
-//            etQuery.setText("")
+            etQuery.setText("")
             presenter.onSendClick(query)
         }
     }
@@ -69,5 +71,11 @@ class MainActivity : ABaseListActivity<AIModel, AListAdapter.DefaultViewHolder<A
         btnMic.isChecked = false
 
     }
+
+    override fun addMessage(chatMessage: ChatMessage) {
+        adapter.addItem(chatMessage)
+        recyclerView.scrollToPosition(adapter.itemCount - 1)
+    }
+
 
 }

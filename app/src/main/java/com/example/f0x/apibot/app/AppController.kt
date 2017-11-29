@@ -1,7 +1,7 @@
 package com.example.f0x.apibot.app
 
 import android.app.Application
-import com.example.f0x.apibot.presentation.main.MainActivity
+import com.example.f0x.apibot.presentation.main.ChatActivity
 import io.realm.Realm
 
 /**
@@ -11,8 +11,8 @@ class AppController : Application() {
 
     companion object {
         private lateinit var componentProvider: ComponentProvider
-        fun injectInMain(mainActivity: MainActivity) {
-            componentProvider.injectInMainActivity(mainActivity)
+        fun injectInMain(chatActivity: ChatActivity) {
+            componentProvider.injectInMainActivity(chatActivity)
         }
     }
 

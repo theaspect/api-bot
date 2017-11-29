@@ -70,8 +70,13 @@ abstract class AListAdapter<D , VH : RecyclerView.ViewHolder>() : RecyclerView.A
 
     fun updateItemView(item: D) {
         notifyItemChanged(getItemPosition(item))
+    }
 
-
+    fun addItem(item: D) {
+        if (!dataSet.contains(item)) {
+            dataSet.add(item)
+            notifyItemInserted(dataSet.size - 1)
+        }
     }
 
     protected fun getItemPosition(item: D): Int {
