@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="left_bubble_color">#3F51B5</color>
+    <color name="right_bubble_color">#5f6db9</color>
 </resources>

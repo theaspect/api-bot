@@ -8,12 +8,12 @@ import com.example.f0x.apibot.domain.repository.chat.getFormatedDate
 import com.example.f0x.apibot.presentation.common.ABaseView
 import com.example.f0x.apibot.presentation.common.IListItemView
 import com.example.f0x.apibot.presentation.common.Layout
-import kotlinx.android.synthetic.main.item_ai.view.*
+import kotlinx.android.synthetic.main.item_left.view.*
 
 /**
  * Created by f0x on 26.11.17.
  */
-@Layout(id = R.layout.item_user)
+@Layout(id = R.layout.item_right)
 class ChatMessageRightView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ABaseView(context, attrs, defStyleAttr), IListItemView<ChatMessage> {

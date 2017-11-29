@@ -1,6 +1,8 @@
 package com.example.f0x.apibot.presentation.main
 
 import android.content.pm.PackageManager
+import android.graphics.Canvas
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -28,6 +30,11 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
     override val emptyViewText: Int
         get() = R.string.no_data_found
 
+    override val dividerDecoration: DividerItemDecoration
+        get() = object : DividerItemDecoration(this, LinearLayoutManager.VERTICAL) {
+            override fun onDraw(c: Canvas?, parent: RecyclerView?, state: RecyclerView.State?) {}
+        }
+
     @ProvidePresenter
     fun providePresenter() = presenter
 
@@ -50,7 +57,7 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
         }
         btnSend.setOnClickListener {
             val query = etQuery.text.toString()
-            etQuery.setText("")
+//            etQuery.setText("")
             presenter.onSendClick(query)
         }
     }

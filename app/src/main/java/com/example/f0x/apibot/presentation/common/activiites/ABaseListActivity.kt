@@ -27,7 +27,7 @@ abstract class ABaseListActivity<D, VH : RecyclerView.ViewHolder> : ABaseActivit
     val isShowDivider: Boolean
         get() = true
 
-    val dividerDecoration: RecyclerView.ItemDecoration
+    open val dividerDecoration: RecyclerView.ItemDecoration
         get() = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
 
     @get:StringRes

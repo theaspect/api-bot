@@ -10,6 +10,10 @@ import com.arellomobile.mvp.InjectViewState
 import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.domain.repository.chat.IChatRepository
 import com.example.f0x.apibot.presentation.common.presenters.ABasePermissionPresenter
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.ReplaySubject
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -115,14 +119,25 @@ class ChatPresenter @Inject constructor(val service: AIService, val repository: 
     }
 
     fun onSendClick(query: String) {
+        repository.saveMessage(query, ChatMessage.TYPE_USER)
+
         val request = AIRequest()
         request.setQuery(query)
-        Thread(Runnable {
-            val result = service.textRequest(request)
-            println("$tag text result $result")
+        Single.fromCallable<String> {
+            val result = service.textRequest(request).result
+            result.fulfillment.speech
 
-        }).start()
+        }.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer { repository.saveMessage(it, ChatMessage.TYPE_BOT) })
 
+//
+//        Thread(Runnable {
+//            val result = service.textRequest(request)
+//            println("$tag text result $result")
+//
+//        }).start()
+//
 
     }
 }

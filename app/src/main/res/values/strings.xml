@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">api-bot</string>
+    <string name="app_name">Rublishteyna24</string>
     <string name="no_data_found">No data found</string>
     <string name="question">Question</string>
     <string name="query">Query</string>
+    <string name="bot_name">Bot: </string>
+    <string name="your_name">You:</string>
     <!--<string naapiiKey">Api key</string>-->
 </resources>
