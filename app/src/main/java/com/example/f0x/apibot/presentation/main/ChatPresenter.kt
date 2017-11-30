@@ -15,7 +15,6 @@ import com.example.f0x.apibot.domain.repository.settings.local.Settings
 import com.example.f0x.apibot.presentation.common.presenters.ABasePermissionPresenter
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.ReplaySubject
 import javax.inject.Inject
@@ -142,16 +141,20 @@ class ChatPresenter @Inject constructor(val service: AIService,
         val request = AIRequest()
         request.setQuery(query)
         Single.fromCallable<String> {
+
+
             val result = service.textRequest(request).result
             result.fulfillment.speech
 
         }.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(Consumer {
+                .subscribe({
                     repository.saveMessage(it, ChatMessage.TYPE_BOT)
                     if (it != null && settings.isSoundEnabled) {
                         player.play(it)
                     }
+                }, {
+                    viewState.showToast(it.message)
                 })
 
     }
