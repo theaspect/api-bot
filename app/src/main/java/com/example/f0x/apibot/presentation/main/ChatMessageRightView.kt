@@ -22,6 +22,7 @@ class ChatMessageRightView @JvmOverloads constructor(
     override fun bind(item: ChatMessage, onClickListener: OnClickListener) {
         tvTextResponse.text = item.message
         tvDate.text = item.getFormatedDate()
+        llBubble.setOnClickListener(onClickListener)
     }
 
 }

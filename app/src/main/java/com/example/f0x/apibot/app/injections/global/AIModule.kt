@@ -9,7 +9,6 @@ import com.example.f0x.apibot.domain.IPlayer
 import com.example.f0x.apibot.domain.Player
 import dagger.Module
 import dagger.Provides
-import java.util.*
 import javax.inject.Singleton
 
 /**
@@ -40,7 +39,7 @@ class AIModule {
     @Singleton
     fun provideSpeechPlayer(context: Context): IPlayer {
         val tts = TextToSpeech(context, {})
-        tts.language = Locale.ENGLISH
+//        tts.language = Locale.getDefault()
         return Player(tts)
     }
 }

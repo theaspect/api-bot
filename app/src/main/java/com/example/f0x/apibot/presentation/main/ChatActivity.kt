@@ -25,6 +25,7 @@ import javax.inject.Inject
 @Layout(id = R.layout.activity_chat)
 class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>>(), IChatView {
 
+
     @Inject
     @InjectPresenter
     lateinit var presenter: ChatPresenter
@@ -62,7 +63,9 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
 
 
     override fun initAdapter(): AListAdapter<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>> {
-        return ChatAdapter()
+        val chatAdapter = ChatAdapter()
+        chatAdapter.onDataClickListener = { presenter.onMessageClick(it) }
+        return chatAdapter
     }
 
     override fun initLayoutManager(): RecyclerView.LayoutManager {

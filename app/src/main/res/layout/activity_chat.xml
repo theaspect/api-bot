@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-
-    >
+    android:background="@color/chat_background"
+    android:padding="5dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -18,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:visibility="visible"
+            tools:visibility="visible" />
 
 
         <com.example.f0x.apibot.presentation.common.SimpleEmptyView
@@ -26,67 +26,69 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="visible" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </FrameLayout>
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/prBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llButtons"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        />
+
+    <RelativeLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="75dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_bar"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:background="@drawable/bottom_bar">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tiLayout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="8">
+        <EditText
+            android:id="@+id/etQuery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/btnSend"
+            android:gravity="bottom"
+            android:hint="@string/query_hint"
+            android:lines="2"
+            android:maxLines="2"
+            android:minLines="2"
+            tools:text="Who  are my top\nclients" />
 
-            <EditText
-                android:id="@+id/etQuery"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/query_hint"
-                tools:text="Who  are my top clients" />
-
-        </android.support.design.widget.TextInputLayout>
 
         <ImageButton
             android:id="@+id/btnSend"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_toStartOf="@+id/btnMic"
             android:background="@null"
-            android:src="@drawable/ic_send_black_24dp"
-            android:visibility="visible" />
+            android:padding="4dp"
+            android:src="@drawable/ic_send_black_24dp" />
 
-
-        <Button
+        <ImageButton
             android:id="@+id/btnMic"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/mic"
-            android:padding="3dp" />
-        <!--<ToggleButton-->
-        <!--android:id="@+id/btnMic"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@drawable/mic"-->
-        <!--android:checked="false"-->
-        <!--android:text=""-->
-        <!--android:textOff=""-->
-        <!--android:textOn="" />-->
-    </LinearLayout>
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/circle"
+            android:padding="4dp"
+            android:src="@drawable/mic" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

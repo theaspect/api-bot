@@ -51,6 +51,7 @@ class ChatPresenter @Inject constructor(val service: AIService,
     }
 
     override fun onResult(result: AIResponse?) {
+        viewState.showLoadingProgress(false)
         repository.saveMessage(result?.result?.resolvedQuery, ChatMessage.TYPE_USER)
         val speech = result?.result?.fulfillment?.speech
         if (speech != null) {
@@ -71,6 +72,7 @@ class ChatPresenter @Inject constructor(val service: AIService,
     }
 
     override fun onError(error: AIError?) {
+        viewState.showLoadingProgress(false)
         viewState.showToast(error?.message)
         println("$tag onError: " + error?.message)
     }
@@ -129,6 +131,7 @@ class ChatPresenter @Inject constructor(val service: AIService,
     }
 
     fun micOff() {
+        viewState.showLoadingProgress(true)
         if (isListening) {
             service.stopListening()
             isListening = false
@@ -137,23 +140,22 @@ class ChatPresenter @Inject constructor(val service: AIService,
 
     fun onSendClick(query: String) {
         repository.saveMessage(query, ChatMessage.TYPE_USER)
-
+        viewState.showLoadingProgress(true)
         val request = AIRequest()
         request.setQuery(query)
         Single.fromCallable<String> {
-
-
             val result = service.textRequest(request).result
             result.fulfillment.speech
-
         }.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     repository.saveMessage(it, ChatMessage.TYPE_BOT)
+                    viewState.showLoadingProgress(false)
                     if (it != null && settings.isSoundEnabled) {
                         player.play(it)
                     }
                 }, {
+                    viewState.showLoadingProgress(false)
                     viewState.showToast(it.message)
                 })
 
@@ -183,5 +185,13 @@ class ChatPresenter @Inject constructor(val service: AIService,
         repository.clearChatMessages()
         viewState.clearChat()
 
+    }
+
+    fun onMessageClick(chatMessage: ChatMessage) {
+        if (chatMessage.message == null)
+            return
+        if (settings.isSoundEnabled) {
+            player.play(chatMessage.message)
+        }
     }
 }
