@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#03213d</color>
     <color name="colorAccent">#ff5200</color>
 
-    <color name="left_bubble_color">#3F51B5</color>
-    <color name="right_bubble_color">#5f6db9</color>
+    <color name="left_bubble_color">#ff5200</color>
+    <color name="right_bubble_color">#04294a</color>
     <color name="chat_background">#eaeaea</color>
 
 </resources>

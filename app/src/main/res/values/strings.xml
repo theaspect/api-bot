@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Rubinstein 24</string>
+    <string name="app_name">RiskMatch</string>
     <string name="no_data_found">No messages</string>
     <string name="question">Question</string>
     <string name="query">Query</string>
     <string name="bot_name">Bot: </string>
     <string name="your_name">You:</string>
-    <string name="query_hint">Text</string>
+    <string name="query_hint">Type your question and press ⏎</string>
     <string name="mute_speech">Mute</string>
     <string name="clear_chat">Clear</string>
     <string name="sound_disabled">Sound on</string>

@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.inputmethod.EditorInfo
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.example.f0x.apibot.R
@@ -94,14 +95,18 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
             return@setOnTouchListener false
         }
 
-        btnSend.setOnClickListener {
-            val query = etQuery.text.toString()
+        etQuery.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val query = etQuery.text.toString()
+                if (TextUtils.isEmpty(query))
+                    return@setOnEditorActionListener true
+                etQuery.setText("")
+                presenter.onSendClick(query)
+                return@setOnEditorActionListener true
 
-            if (TextUtils.isEmpty(query))
-                return@setOnClickListener
+            }
 
-            etQuery.setText("")
-            presenter.onSendClick(query)
+            return@setOnEditorActionListener false
         }
     }
 

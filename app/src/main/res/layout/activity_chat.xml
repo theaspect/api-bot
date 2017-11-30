@@ -55,26 +55,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/btnSend"
+            android:layout_toStartOf="@+id/btnMic"
             android:gravity="bottom"
             android:hint="@string/query_hint"
             android:lines="2"
             android:maxLines="2"
             android:minLines="2"
-            tools:text="Who  are my top\nclients" />
+            tools:text="Type your question and press ⏎" />
 
 
-        <ImageButton
-            android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_toStartOf="@+id/btnMic"
-            android:background="@null"
-            android:padding="4dp"
-            android:src="@drawable/ic_send_black_24dp" />
+        <!--<ImageButton-->
+        <!--android:id="@+id/btnSend"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginEnd="4dp"-->
+        <!--android:layout_marginStart="4dp"-->
+        <!--android:layout_toStartOf="@+id/btnMic"-->
+        <!--android:background="@null"-->
+        <!--android:padding="4dp"-->
+        <!--android:src="@drawable/ic_send_black_24dp" />-->
 
         <ImageButton
             android:id="@+id/btnMic"
