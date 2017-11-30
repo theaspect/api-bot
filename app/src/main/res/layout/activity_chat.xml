@@ -46,7 +46,7 @@
     <RelativeLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_bar">
 
@@ -55,13 +55,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/btnMic"
             android:gravity="bottom"
             android:hint="@string/query_hint"
-            android:lines="2"
-            android:maxLines="2"
-            android:minLines="2"
-            tools:text="Type your question and press ⏎" />
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:minLines="1"
+            tools:text="Type your question or say" />
 
 
         <!--<ImageButton-->
