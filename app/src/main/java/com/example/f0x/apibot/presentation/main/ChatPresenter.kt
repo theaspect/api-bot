@@ -101,16 +101,14 @@ class ChatPresenter @Inject constructor(val service: AIService,
             service.pause()
             isPaused = true
         }
-
-        if (player.isPlaying())
-            player.stop()
-
         super.detachView(view)
     }
 
 
     override fun onDestroy() {
         service.cancel()
+        if (player.isPlaying())
+            player.stop()
         super.onDestroy()
     }
 
