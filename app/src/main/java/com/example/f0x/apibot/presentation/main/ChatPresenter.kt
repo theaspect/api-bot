@@ -6,6 +6,7 @@ import ai.api.model.AIError
 import ai.api.model.AIRequest
 import ai.api.model.AIResponse
 import android.os.Build
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.example.f0x.apibot.domain.IPlayer
 import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
@@ -41,6 +42,8 @@ class ChatPresenter @Inject constructor(val service: AIService,
         super.onFirstViewAttach()
         invalidateMenu()
         repository.allMessages()
+        subject.subscribe { viewState.addMessage(it) }
+
         isAudioAccepted = checkRecordAudioPermission()
         if (!isAudioAccepted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             requestRecordAudioPermission()
@@ -90,9 +93,6 @@ class ChatPresenter @Inject constructor(val service: AIService,
             service.resume()
             isPaused = false
         }
-        addDisposable(subject.subscribe {
-            viewState.addMessage(it)
-        })
         super.attachView(view)
     }
 
@@ -116,7 +116,7 @@ class ChatPresenter @Inject constructor(val service: AIService,
 
 
     fun micOn() {
-
+        viewState.showAskView(true)
         if (player.isPlaying())
             player.stop()
 
@@ -131,6 +131,7 @@ class ChatPresenter @Inject constructor(val service: AIService,
     }
 
     fun micOff() {
+        viewState.showAskView(false)
         viewState.showLoadingProgress(true)
         if (isListening) {
             service.stopListening()
@@ -139,6 +140,8 @@ class ChatPresenter @Inject constructor(val service: AIService,
     }
 
     fun onSendClick(query: String) {
+        Log.d(tag, "NEW QUERY $query")
+
         repository.saveMessage(query, ChatMessage.TYPE_USER)
         viewState.showLoadingProgress(true)
         val request = AIRequest()

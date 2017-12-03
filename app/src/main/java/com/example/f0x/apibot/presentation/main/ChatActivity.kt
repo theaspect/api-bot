@@ -1,7 +1,9 @@
 package com.example.f0x.apibot.presentation.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Canvas
+import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -9,6 +11,10 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -42,6 +48,56 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
 
     @ProvidePresenter
     fun providePresenter() = presenter
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        checkIntent()
+
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        checkIntent()
+    }
+
+
+    private fun checkIntent() {
+        val query = intent?.getStringExtra("query")
+        if (query != null)
+            presenter.onSendClick(query)
+    }
+
+    override fun showAskView(show: Boolean) = if (show) {
+        flAskView.visibility = VISIBLE
+        val anim = ScaleAnimation(
+                0.0f, 1.0f, // Start and end values for the X axis scaling
+                0.0f, 1.0f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f) // Pivot point of Y scaling
+        anim.fillAfter = true // Needed to keep the result of the animation
+        anim.duration = 300
+        flAskView.startAnimation(anim)
+
+    } else {
+        val anim = ScaleAnimation(
+                1.0f, 0.0f, // Start and end values for the X axis scaling
+                1.0f, 0.0f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f) // Pivot point of Y scaling
+        anim.fillAfter = true // Needed to keep the result of the animation
+        anim.duration = 300
+        anim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                flAskView.visibility = GONE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {}
+        })
+        flAskView.startAnimation(anim)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.chat_menu, menu)
@@ -122,8 +178,8 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
     }
 
     override fun addMessage(chatMessage: ChatMessage) {
-        adapter.addItem(chatMessage)
-        recyclerView.scrollToPosition(adapter.itemCount - 1)
+        if (adapter.addItem(chatMessage))
+            recyclerView.scrollToPosition(adapter.itemCount - 1)
     }
 
     override fun unMuteMenuItem() {

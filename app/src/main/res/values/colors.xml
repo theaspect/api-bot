@@ -7,5 +7,6 @@
     <color name="left_bubble_color">#ff5200</color>
     <color name="right_bubble_color">#04294a</color>
     <color name="chat_background">#eaeaea</color>
+    <color name="voice_view_color">#e2999595</color>
 
 </resources>

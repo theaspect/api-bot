@@ -31,11 +31,46 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/flAskView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/prBar"
+        android:background="@color/voice_view_color"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/mic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:text="Ask your question"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+
+                />
+        </LinearLayout>
+    </FrameLayout>
+
     <ProgressBar
         android:id="@+id/prBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_above="@+id/llButtons"
         android:indeterminate="true"
         android:visibility="invisible"
