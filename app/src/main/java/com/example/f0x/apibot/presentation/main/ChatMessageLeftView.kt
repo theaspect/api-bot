@@ -19,7 +19,8 @@ class ChatMessageLeftView @JvmOverloads constructor(
 ) : ABaseView(context, attrs, defStyleAttr), IListItemView<ChatMessage> {
 
     override fun bind(item: ChatMessage, onClickListener: OnClickListener) {
-        tvTextResponse.text = item.message
+        // TODO extract resource
+        tvTextResponse.text = if (item.message.isNullOrEmpty()) "I can't answer you right now" else item.message
         tvDate.text = item.getFormatedDate()
         llBubble.setOnClickListener(onClickListener)
     }
