@@ -47,14 +47,14 @@
             android:textSize="16sp"
             tools:text="you request" />
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="end"
-            android:gravity="start|center_vertical"
-            android:textColor="@android:color/white"
-            tools:text="12.12.2017 23:59:59" />
+        <!--<TextView-->
+        <!--android:id="@+id/tvDate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:gravity="start|center_vertical"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:text="12.12.2017 23:59:59" />-->
 
     </LinearLayout>
 </LinearLayout>

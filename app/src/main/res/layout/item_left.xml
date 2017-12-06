@@ -46,12 +46,12 @@
             android:textSize="16sp"
             tools:text="bot response" />
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:textColor="@android:color/white"
-            tools:text="12.12.2017 23:59:59" />
+        <!--<TextView-->
+        <!--android:id="@+id/tvDate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:text="12.12.2017 23:59:59" />-->
 
     </LinearLayout>
 

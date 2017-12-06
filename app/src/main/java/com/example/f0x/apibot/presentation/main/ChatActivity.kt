@@ -21,7 +21,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.example.f0x.apibot.R
 import com.example.f0x.apibot.app.AppController
 import com.example.f0x.apibot.app.Const
-import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.presentation.common.AListAdapter
 import com.example.f0x.apibot.presentation.common.Layout
 import com.example.f0x.apibot.presentation.common.activiites.ABaseListActivity
@@ -30,7 +29,7 @@ import javax.inject.Inject
 
 
 @Layout(id = R.layout.activity_chat)
-class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>>(), IChatView {
+class ChatActivity : ABaseListActivity<IChatItem, AListAdapter.DefaultViewHolder<IChatItem>>(), IChatView {
 
 
     @Inject
@@ -119,7 +118,7 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
     }
 
 
-    override fun initAdapter(): AListAdapter<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>> {
+    override fun initAdapter(): AListAdapter<IChatItem, AListAdapter.DefaultViewHolder<IChatItem>> {
         val chatAdapter = ChatAdapter()
         chatAdapter.onDataClickListener = { presenter.onMessageClick(it) }
         return chatAdapter
@@ -177,8 +176,8 @@ class ChatActivity : ABaseListActivity<ChatMessage, AListAdapter.DefaultViewHold
         }
     }
 
-    override fun addMessage(chatMessage: ChatMessage) {
-        if (adapter.addItem(chatMessage))
+    override fun addMessage(chatItem: IChatItem) {
+        if (adapter.addItem(chatItem))
             recyclerView.scrollToPosition(adapter.itemCount - 1)
     }
 

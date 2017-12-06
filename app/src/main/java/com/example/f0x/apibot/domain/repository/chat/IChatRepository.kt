@@ -6,6 +6,6 @@ package com.example.f0x.apibot.domain.repository.chat
 interface IChatRepository {
 
     fun allMessages()
-    fun saveMessage(message: String?, type: Int)
+    fun saveMessage(message: String, type: Int)
     fun clearChatMessages()
 }

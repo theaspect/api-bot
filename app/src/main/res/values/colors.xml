@@ -8,5 +8,6 @@
     <color name="right_bubble_color">#04294a</color>
     <color name="chat_background">#eaeaea</color>
     <color name="voice_view_color">#e2999595</color>
+    <color name="item_date_background">#8b6c6868</color>
 
 </resources>

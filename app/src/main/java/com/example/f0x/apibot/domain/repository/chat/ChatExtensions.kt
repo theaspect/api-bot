@@ -9,7 +9,12 @@ import java.util.*
  * Created by f0x on 29.11.17.
  */
 
-fun ChatMessageRealm.map2Data(): ChatMessage = ChatMessage(this.date, this.message, this.type)
+fun ChatMessageRealm.map2Data(): ChatMessage {
+    var text = ""
+    this.message?.let { text = it }
+
+    return ChatMessage(this.date, text, this.type)
+}
 
 fun ChatMessage.mat2Realm(): ChatMessageRealm {
     val r = ChatMessageRealm()

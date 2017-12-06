@@ -2,22 +2,23 @@ package com.example.f0x.apibot.presentation.main
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.example.f0x.apibot.domain.models.ai.chat.ChatMessage
 import com.example.f0x.apibot.presentation.common.ABaseView
 import com.example.f0x.apibot.presentation.common.AListAdapter
 
 /**
  * Created by f0x on 26.11.17.
  */
-class ChatAdapter : AListAdapter<ChatMessage, AListAdapter.DefaultViewHolder<ChatMessage>>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DefaultViewHolder<ChatMessage> {
-        return if (viewType == ChatMessage.TYPE_BOT)
-            DefaultViewHolder(ChatMessageLeftView(parent.context))
+class ChatAdapter : AListAdapter<IChatItem, AListAdapter.DefaultViewHolder<IChatItem>>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DefaultViewHolder<IChatItem> {
+        if (viewType == IChatItem.TYPE_BOT)
+            return DefaultViewHolder(ChatMessageLeftView(parent.context))
+        if (viewType == IChatItem.TYPE_USER)
+            return DefaultViewHolder(ChatMessageRightView(parent.context))
         else
-            DefaultViewHolder(ChatMessageRightView(parent.context))
+            return DefaultViewHolder(ChatDateView(parent.context))
     }
 
-    override fun onBindViewHolder(holder: DefaultViewHolder<ChatMessage>, position: Int) {
+    override fun onBindViewHolder(holder: DefaultViewHolder<IChatItem>, position: Int) {
         super.onBindViewHolder(holder, position)
         (holder.view as ABaseView).layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
@@ -26,6 +27,6 @@ class ChatAdapter : AListAdapter<ChatMessage, AListAdapter.DefaultViewHolder<Cha
     }
 
     override fun getItemViewType(position: Int): Int {
-        return dataSet[position].type
+        return dataSet[position].getTypeItem()
     }
 }

@@ -6,7 +6,7 @@ import com.example.f0x.apibot.domain.repository.chat.local.IChatLocalStorage
 import io.reactivex.subjects.ReplaySubject
 
 class ChatRepository(val localStorage: IChatLocalStorage, val chatSubject: ReplaySubject<ChatMessage>) : BaseRepository(), IChatRepository {
-    override fun saveMessage(message: String?, type: Int) {
+    override fun saveMessage(message: String, type: Int) {
         val chatMessage = ChatMessage(System.currentTimeMillis(), message, type)
         localStorage.saveMessage(chatMessage)
         chatSubject.onNext(chatMessage)
