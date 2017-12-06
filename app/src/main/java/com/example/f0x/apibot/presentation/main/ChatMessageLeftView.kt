@@ -18,7 +18,7 @@ class ChatMessageLeftView @JvmOverloads constructor(
 
     override fun bind(item: IChatItem, onClickListener: OnClickListener) {
         // TODO extract resource
-        tvTextResponse.text = if (item.getText().isEmpty()) "I can't answer you right now" else item.getText()
+        tvTextResponse.text = if (item.getText().isEmpty()) "I’m sorry, I can’t find any information on that right now." else item.getText()
         llBubble.setOnClickListener(onClickListener)
     }
 

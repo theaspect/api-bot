@@ -57,11 +57,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
-                android:text="Ask your question"
+                android:text="Welcome to RiskMatch!\n How can I help you?\nYou can type your question,\nor just press the microphone button and talk."
+                android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
 
-                />
+                android:textSize="18sp" />
         </LinearLayout>
     </FrameLayout>
 

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RiskMatch</string>
-    <string name="no_data_found">No messages</string>
+    <string name="no_data_found">Welcome to RiskMatch!\nHow can I help you?\nYou can type your question,\nor just press the microphone button and talk.</string>
     <string name="question">Question</string>
     <string name="query">Query</string>
     <string name="bot_name">Bot: </string>
